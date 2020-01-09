@@ -72,7 +72,7 @@ def test(args, model, device, test_loader):
             torchvision.utils.save_image(
                 torch.cat([input_norm, output_norm, target_norm], dim=0),
                 f"./data/visualize/test/latest_{batch_idx}.jpg", 
-                normalize=True, range=(0, 1), nrow=5, padding=10, pad_value=0.5
+                normalize=True, range=(0, 1), nrow=len(data), padding=10, pad_value=0.5
             )
             
             pred = output_norm>0.5
