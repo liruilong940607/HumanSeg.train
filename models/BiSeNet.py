@@ -215,3 +215,4 @@ class BiSeNet(torch.nn.Module):
             return pred, edge
         else:
             return pred
+
