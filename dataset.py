@@ -14,8 +14,8 @@ def get_training_augmentation():
     train_transform = [
         # albu.HueSaturationValue(hue_shift_limit=20, sat_shift_limit=20, val_shift_limit=20, p=1),
         albu.RGBShift(r_shift_limit=30, g_shift_limit=30, b_shift_limit=30, p=1),
-        albu.RandomBrightness(limit=0.1, p=1),
-        albu.RandomContrast(limit=0.3, p=1),
+        albu.RandomBrightness(limit=0.2, p=1),
+        albu.RandomContrast(limit=0.4, p=1),
 
         # albu.JpegCompression(quality_lower=70, quality_upper=100, p=1),
         albu.Blur(blur_limit=5, p=1),
@@ -61,8 +61,10 @@ class Dataset(object):
 
         #extra images
         if train:
-            image_files += sorted(glob.glob("/home/ICT2000/rli/local/data/Removebg/images/*.jpeg"))
-            label_files += sorted(glob.glob("/home/ICT2000/rli/local/data/Removebg/labels/*.png"))
+            extra_image_files = sorted(glob.glob("/home/ICT2000/rli/local/data/Removebg/images/*.jpeg"))
+            extra_label_files = [f.replace("/images/", "/labels/").replace(".jpeg", "-removebg-preview.png") for f in extra_image_files]
+            image_files += extra_image_files
+            label_files += extra_label_files
 
         self.image_files = []
         self.label_files = []
@@ -102,7 +104,7 @@ class Dataset(object):
                 self.input_size, self.input_size, 
                 angle_range=(-0, 0), 
                 # scale_range=(0.7, 0.7), 
-                scale_range=(0.4, 0.75), 
+                scale_range=(0.35, 0.75), 
                 trans_range=(-0.4, 0.4),
                 # trans_range=(-0.0, 0.0)
             )

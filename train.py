@@ -45,7 +45,7 @@ def train(args, model, device, train_loader, optimizer, epoch):
         torch.cat([input_norm, output_norm, target_norm], dim=0),
         # f"./data/visualize/train/epoch_{epoch}_idx_{batch_idx}.jpg", 
         f"./data/visualize/train/latest.jpg", 
-        normalize=True, range=(0, 1), nrow=len(data), padding=10, pad_value=0.5
+        normalize=True, range=(0, 1), nrow=len(input_norm), padding=10, pad_value=0.5
     )
     
     torch.save(
@@ -72,7 +72,7 @@ def test(args, model, device, test_loader):
             torchvision.utils.save_image(
                 torch.cat([input_norm, output_norm, target_norm], dim=0),
                 f"./data/visualize/test/latest_{batch_idx}.jpg", 
-                normalize=True, range=(0, 1), nrow=len(data), padding=10, pad_value=0.5
+                normalize=True, range=(0, 1), nrow=len(input_norm), padding=10, pad_value=0.5
             )
             
             pred = output_norm>0.5
@@ -135,9 +135,9 @@ def main():
     # ).to(device)
     model = smp.Unet('resnet18', encoder_weights='imagenet', classes=2).to(device)
 
-    if os.path.exists("./data/snapshots/latest-new-94.74.pt"):
+    if os.path.exists("./data/snapshots/latest-ckpt.pt"):
         model.load_state_dict(
-            torch.load(f"./data/snapshots/latest-new-94.74.pt")
+            torch.load(f"./data/snapshots/latest-ckpt.pt")
         )
     optimizer = optim.Adadelta(model.parameters(), lr=args.lr)
 
