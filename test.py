@@ -111,7 +111,8 @@ class HumanSeg():
         return output[:, 1, :, :]
 
 def test_single_img():
-    image = cv2.imread("./data/alignment/000301.jpg")
+    # image = cv2.imread("./data/alignment/000301.jpg")
+    image = cv2.imread("/home/ICT2000/rli/Downloads/test_epoch13_idx12000_rp_sophia_posed_003.png")
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     image = cv2.resize(image, (512, 512)) / 255.0
     image = (image.transpose(2, 0, 1) - 0.5) / 0.5 # in [-1, 1]
@@ -148,6 +149,6 @@ def test_video():
     prediction = app(tensor, save="./test.jpg") # in [0, 1]
 
 if __name__ == "__main__":
-    test_video()
+    test_single_img()
 
     

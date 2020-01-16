@@ -26,7 +26,7 @@ def aug_matrix(w1, h1, w2, h2,
 
     trans = random.random()*(trans_range[1]-trans_range[0])+trans_range[0]
     centerx = w2/2.0 + w2*trans
-    centery = h2/2.0 + h2*trans * 0
+    centery = h2/2.0 + h2*trans
     H = np.array([[alpha, beta, (1-alpha)*centerx-beta*centery], 
                   [-beta, alpha, beta*centerx+(1-alpha)*centery],
                   [0,         0,                            1.0]])

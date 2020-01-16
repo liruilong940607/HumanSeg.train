@@ -85,7 +85,7 @@ templ_bbox = [
     templ_ys.max()/templ_img.shape[0], 
 ]
 
-print (train_bbox)
+print (train_bbox) # [0.380859375, 0.18359375, 0.630859375, 0.873046875]
 print (templ_bbox) # [0.372, 0.13, 0.626, 0.83]
 
 scale_h = (y2 - y1) / (templ_bbox[3] - templ_bbox[1])

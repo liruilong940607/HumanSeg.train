@@ -4,6 +4,7 @@ sys.path.insert(0, "/home/ICT2000/rli/package/api/Python/v3")
 import ximea
 from ximea import xiapi
 from tqdm import tqdm
+import albumentations as albu
 
 #create instance for first connected camera
 cam = xiapi.Camera()
@@ -16,9 +17,11 @@ print('Opening first camera...')
 cam.open_device()
 cam.enable_auto_wb()
 
+# cam.set_height(512)
+# cam.set_width(512)
+
 #settings
-cam.set_exposure(100000)
-print(cam.get_downsampling())
+cam.set_exposure(50000)
 cam.set_imgdataformat("XI_RGB24")
 # cam.set_width(512)
 # cam.set_height(512)
@@ -31,15 +34,24 @@ img = xiapi.Image()
 print('Starting data acquisition...')
 cam.start_acquisition()
 
-# for i in tqdm(range(1000)):
-while True:
+for i in tqdm(range(1000)):
+# while True:
     #get data and pass them from camera to img
     cam.get_image(img)
+    
 
     #get raw data from camera
     #for Python2.x function returns string
     #for Python3.x function returns bytes
+    
     rgb = img.get_image_data_numpy()
+    rgb = cv2.resize(rgb, (512, 512))
+    rgb = albu.RandomBrightnessContrast(
+        brightness_limit=(0.0, 0.0), 
+        contrast_limit=(0.0, 0.0), 
+        p=1
+    )(image=rgb)["image"]
+
     # rgb = cv2.cvtColor(rgb, cv2.COLOR_BGR2RGB)
     # nparr = np.fromstring(data_raw, np.uint8).reshape
     # img_np = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
@@ -51,6 +63,7 @@ while True:
     # rgb = cv2.cvtColor(data_raw, cv2.COLOR_BGR2RGB)
 
     # Display the resulting frame
+
     cv2.imshow('frame',rgb)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
